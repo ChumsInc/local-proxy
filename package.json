@@ -1,5 +1,6 @@
 {
-  "name": "local-server",
+  "name": "local-proxy",
+  "type": "module",
   "version": "0.0.0",
   "scripts": {
     "start": "node index.js --site=intranet --port=8081",
@@ -14,10 +15,7 @@
     "cookie-parser": "^1.4.5",
     "debug": "^4.3.1",
     "dotenv": "^16.3.1",
-    "es6-shim": "^0.35.6",
     "express": "^4.17.1",
-    "http-proxy": "^1.18.1",
-    "pug": "^3.0.0",
-    "reflect-metadata": "^0.1.13"
+    "http-proxy": "^1.18.1"
   }
 }
