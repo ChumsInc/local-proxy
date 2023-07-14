@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node index.js --site=intranet --port=8081",
     "start-80": "node index.js --site=intranet --port=80",
-    "start-b2b": "node index.js --site=b2b"
+    "start-b2b": "node index.js --site=b2b",
+    "start-progulus": "node index.js --site=progulus"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
