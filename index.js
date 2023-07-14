@@ -24,6 +24,10 @@ switch (options.site) {
         clientName = process.env.INTRANET_API_CLIENT;
         clientSecret = process.env.INTRANET_API_SECRET;
         break;
+    case 'progulus':
+        clientName = process.env.PROGULUS_API_CLIENT;
+        clientSecret = process.env.PROGULUS_API_SECRET;
+        break;
 }
 
 if (!clientName || !clientSecret) {
