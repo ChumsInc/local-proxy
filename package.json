@@ -5,7 +5,6 @@
   "scripts": {
     "start": "node index.js --site=intranet --port=8081",
     "start-80": "node index.js --site=intranet --port=80",
-    "start-bc": "node index.js --site=beyondcoastal",
     "start-b2b": "node index.js --site=b2b"
   },
   "dependencies": {

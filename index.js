@@ -16,9 +16,6 @@ const optionDefinitions = [
 const options = commandLineArgs(optionDefinitions);
 console.log('options', options);
 
-const INTRANET_API_CLIENT = process.env.INTRANET_API_CLIENT;
-const INTRANET_API_SECRET = process.env.INTRANET_API_SECRET;
-
 let clientName = null;
 let clientSecret = null;
 switch (options.site) {
@@ -27,7 +24,6 @@ switch (options.site) {
         clientName = process.env.INTRANET_API_CLIENT;
         clientSecret = process.env.INTRANET_API_SECRET;
         break;
-
 }
 
 if (!clientName || !clientSecret) {
@@ -47,7 +43,7 @@ proxy.on('proxyReq', (proxyReq, req, res, options) => {
 const proxyAuth = httpProxy.createProxyServer({
     secure: false,
     changeOrigin: true,
-    auth: `${INTRANET_API_CLIENT}:${INTRANET_API_SECRET}`});
+    auth: `${clientName}:${clientSecret}`});
 
 proxyAuth.on('proxyReq', (proxyReq, req, res, options) => {
     proxyReq.setHeader('X-Special-Proxy-Header', 'foobar');
@@ -202,5 +198,5 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 const server = http.createServer(app);
-server.listen(options.port || 8081, 'localhost');
+server.listen(options.port ?? 8081, 'localhost');
 debug('listening on localhost:' + options.port || 8081);
