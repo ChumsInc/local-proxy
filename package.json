@@ -1,7 +1,7 @@
 {
   "name": "local-proxy",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "start": "node index.js --site=intranet --port=8081",
     "start-80": "node index.js --site=intranet --port=80",
