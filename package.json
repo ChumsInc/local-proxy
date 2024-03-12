@@ -17,5 +17,13 @@
     "dotenv": "^16.3.1",
     "express": "^4.17.1",
     "http-proxy": "^1.18.1"
+  },
+  "devDependencies": {
+    "auto-changelog": "^2.4.0"
+  },
+  "auto-changelog": {
+    "template": "keepachangelog",
+    "unreleased": true,
+    "commitLimit": false
   }
 }

@@ -14,6 +14,9 @@ const optionDefinitions = [
     {name: 'port', type: Number},
 ];
 const options = commandLineArgs(optionDefinitions);
+if (!options.port) {
+    options.port = process.env.PORT;
+}
 console.log('options', options);
 
 let clientName = null;
@@ -202,5 +205,5 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 const server = http.createServer(app);
-server.listen(options.port ?? 8081, 'localhost');
-debug('listening on localhost:' + options.port || 8081);
+server.listen(options.port, 'localhost');
+debug('listening on localhost:' + options.port);
