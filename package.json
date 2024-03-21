@@ -1,7 +1,7 @@
 {
   "name": "local-proxy",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "start": "nodemon index.js --site=intranet --port=8081",
     "start-80": "nodemon index.js --site=intranet --port=80",
@@ -22,6 +22,8 @@
   },
   "nodemonConfig": {
     "delay": 1500,
-    "ignore": ["**/node_modules/*"]
+    "ignore": [
+      "**/node_modules/*"
+    ]
   }
 }
