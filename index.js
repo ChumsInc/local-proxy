@@ -119,22 +119,6 @@ case 'intranet':
         proxyAuth.web(req, res, {target: `https://intranet.chums.com/arches/`});
     });
 
-    app.use('/bryce', (req, res) => {
-        proxyAuth.web(req, res, {target: `https://intranet.chums.com/bryce/`});
-    });
-
-    app.use('/node-chums', (req, res) => {
-        proxy.web(req, res, {target: 'https://www.chums.com/api/'});
-    });
-
-    app.use('/node-bc', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://www.beyondcoastal.com/api/'});
-    });
-
-    app.use('/node-safety', (req, res) => {
-        proxy.web(req, res, {target: 'https://www.chumssafety.com/api/'});
-    });
-
     app.use('/node-b2b', (req, res) => {
         proxyAuth.web(req, res, {target: 'https://intranet.chums.com/node-b2b/'});
     });
