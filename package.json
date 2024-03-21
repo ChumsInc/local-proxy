@@ -3,10 +3,11 @@
   "type": "module",
   "version": "0.0.0",
   "scripts": {
-    "start": "node index.js --site=intranet --port=8081",
-    "start-80": "node index.js --site=intranet --port=80",
-    "start-b2b": "node index.js --site=b2b",
-    "start-progulus": "node index.js --site=progulus --port=8001"
+    "start": "nodemon index.js --site=intranet --port=8081",
+    "start-80": "nodemon index.js --site=intranet --port=80",
+    "start-b2b": "nodemon index.js --site=b2b",
+    "start-b2b-server": "nodemon index.js --site=b2b-server",
+    "start-progulus": "nodemon index.js --site=progulus --port=8001"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -16,6 +17,11 @@
     "debug": "^4.3.1",
     "dotenv": "^16.3.1",
     "express": "^4.17.1",
-    "http-proxy": "^1.18.1"
+    "http-proxy": "^1.18.1",
+    "nodemon": "^3.0.1"
+  },
+  "nodemonConfig": {
+    "delay": 1500,
+    "ignore": ["**/node_modules/*"]
   }
 }

@@ -19,15 +19,12 @@ console.log('options', options);
 let clientName = null;
 let clientSecret = null;
 switch (options.site) {
-    case 'intranet':
-    case 'b2b':
-        clientName = process.env.INTRANET_API_CLIENT;
-        clientSecret = process.env.INTRANET_API_SECRET;
-        break;
-    case 'progulus':
-        clientName = process.env.PROGULUS_API_CLIENT;
-        clientSecret = process.env.PROGULUS_API_SECRET;
-        break;
+case 'intranet':
+case 'b2b':
+case 'b2b-server':
+    clientName = process.env.INTRANET_API_CLIENT;
+    clientSecret = process.env.INTRANET_API_SECRET;
+    break;
 }
 
 if (!clientName || !clientSecret) {
@@ -35,7 +32,11 @@ if (!clientName || !clientSecret) {
     process.exit();
 }
 
-const proxy = httpProxy.createProxyServer({ secure: false, changeOrigin: true });
+if (!options.port) {
+    options.port = 8081;
+}
+
+const proxy = httpProxy.createProxyServer({secure: false, changeOrigin: true});
 proxy.on('error', (e) => {
     debug('onError()', e);
 });
@@ -47,7 +48,8 @@ proxy.on('proxyReq', (proxyReq, req, res, options) => {
 const proxyAuth = httpProxy.createProxyServer({
     secure: false,
     changeOrigin: true,
-    auth: `${clientName}:${clientSecret}`});
+    auth: `${clientName}:${clientSecret}`
+});
 
 proxyAuth.on('proxyReq', (proxyReq, req, res, options) => {
     proxyReq.setHeader('X-Special-Proxy-Header', 'foobar');
@@ -67,134 +69,140 @@ app.use((req, res, next) => {
 switch (options.site) {
 case 'intranet':
     app.use('/intranet', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://intranet.chums.com/' });
+        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/'});
     });
 
     app.use('/images', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://intranet.chums.com/images/' });
+        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/images/'});
     });
 
     app.use('/pm-images', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://intranet.chums.com/pm-images/' });
+        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/pm-images/'});
     });
 
     app.use('/api/user', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://intranet.chums.com/api/user/' });
+        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/api/user/'});
     });
 
     app.use('/api', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://intranet.chums.com/api/' });
+        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/api/'});
     });
 
     app.use('/node-dev', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://intranet.chums.com/node-dev/' });
+        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/node-dev/'});
     });
 
     app.use('/node', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://intranet.chums.com/node/' });
+        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/node/'});
     });
 
     app.use('/node-api', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://intranet.chums.com/node/' });
+        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/node/'});
     });
 
     app.use('/node_modules', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://intranet.chums.com/node_modules/' });
+        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/node_modules/'});
     });
 
     app.use('/node-sage', (req, res) => {
-        proxyAuth.web(req, res, { target: `https://intranet.chums.com/node-sage/` });
+        proxyAuth.web(req, res, {target: `https://intranet.chums.com/node-sage/`});
     });
 
     app.use('/sage', (req, res) => {
-        proxyAuth.web(req, res, { target: `https://intranet.chums.com/sage/` });
+        proxyAuth.web(req, res, {target: `https://intranet.chums.com/sage/`});
     });
 
     app.use('/arches', (req, res) => {
-        proxyAuth.web(req, res, { target: `https://intranet.chums.com/arches/` });
+        proxyAuth.web(req, res, {target: `https://intranet.chums.com/arches/`});
     });
 
     app.use('/bryce', (req, res) => {
-        proxyAuth.web(req, res, { target: `https://intranet.chums.com/bryce/` });
+        proxyAuth.web(req, res, {target: `https://intranet.chums.com/bryce/`});
     });
 
     app.use('/node-chums', (req, res) => {
-        proxy.web(req, res, { target: 'https://www.chums.com/api/' });
+        proxy.web(req, res, {target: 'https://www.chums.com/api/'});
     });
 
     app.use('/node-bc', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://www.beyondcoastal.com/api/' });
+        proxyAuth.web(req, res, {target: 'https://www.beyondcoastal.com/api/'});
     });
 
     app.use('/node-safety', (req, res) => {
-        proxy.web(req, res, { target: 'https://www.chumssafety.com/api/' });
+        proxy.web(req, res, {target: 'https://www.chumssafety.com/api/'});
     });
 
     app.use('/node-b2b', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://intranet.chums.com/node-b2b/' });
+        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/node-b2b/'});
     });
 
     app.use('/timeclock', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://intranet.chums.com/timeclock/' });
+        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/timeclock/'});
     });
     break;
 
 case 'b2b':
     app.use('/node-dev', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://b2b.chums.com/node-dev/' });
+        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/node-dev/'});
     });
 
     app.use('/node', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://b2b.chums.com/node/' });
+        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/node/'});
     });
 
     app.use('/node_modules', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://b2b.chums.com/node_modules/' });
+        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/node_modules/'});
     });
 
     app.use('/node-sage', (req, res) => {
-        proxyAuth.web(req, res, { target: `https://b2b.chums.com/node-sage/` });
+        proxyAuth.web(req, res, {target: `https://b2b.chums.com/node-sage/`});
     });
 
     app.use('/node-chums', (req, res) => {
-        proxyAuth.web(req, res, { target: `https://b2b.chums.com/node-chums/` });
+        proxyAuth.web(req, res, {target: `https://b2b.chums.com/node-chums/`});
     });
 
 
     app.use('/sage', (req, res) => {
-        proxyAuth.web(req, res, { target: `https://b2b.chums.com/sage/` });
+        proxyAuth.web(req, res, {target: `https://b2b.chums.com/sage/`});
     });
 
     app.use('/api', (req, res) => {
-        proxy.web(req, res, { target: 'https://b2b.chums.com/api/' });
+        proxy.web(req, res, {target: 'https://b2b.chums.com/api/'});
     });
 
     app.use('/images', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://b2b.chums.com/images/' });
+        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/images/'});
     });
 
     app.use('/files', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://b2b.chums.com/files/' });
+        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/files/'});
     });
 
     app.use('/pdf', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://b2b.chums.com/pdf/' });
+        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/pdf/'});
     });
 
     app.use('/version', (req, res) => {
-        proxyAuth.web(req, res, { target: 'https://b2b.chums.com/version' });
+        proxyAuth.web(req, res, {target: 'http://localhost:8080/package.json', ignorePath: true});
     });
 
     break;
 
-    case 'pgw':
-        app.use('/api', (req, res) => {
-            proxyAuth.web(res, res, {target: 'https://petroglyphwatch.com/api'});
-        });
-
-        app.use('/images', (req, res) => {
-            proxyAuth.web(res, res, {target: 'https://petroglyphwatch.com/images'});
-        });
+case 'b2b-server':
+    app.use('/keywords', (req, res) => {
+        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/api/keywords'});
+    })
+    app.use('/preload', (req, res) => {
+        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/api/preload'});
+    })
+    app.use('/images', (req, res) => {
+        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/images/'});
+    });
+    app.use('/version', (req, res) => {
+        proxyAuth.web(req, res, {target: 'http://localhost:8080/package.json', ignorePath: true});
+    });
+    break;
 
 }
 
