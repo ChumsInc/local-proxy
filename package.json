@@ -5,9 +5,8 @@
   "scripts": {
     "start": "nodemon index.js --site=intranet --port=8081",
     "start-80": "nodemon index.js --site=intranet --port=80",
-    "start-b2b": "nodemon index.js --site=b2b",
-    "start-b2b-server": "nodemon index.js --site=b2b-server",
-    "start-progulus": "nodemon index.js --site=progulus --port=8001"
+    "start-b2b": "nodemon index.js --site=b2b --port=8081",
+    "start-b2b-server": "nodemon index.js --site=b2b-server"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
