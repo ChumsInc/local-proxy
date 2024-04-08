@@ -4,12 +4,14 @@ import bodyParser from "body-parser";
 import compression from 'compression';
 import * as http from "node:http";
 import Debug from 'debug';
-import httpProxy from 'http-proxy';
 import commandLineArgs from "command-line-args";
 import b2bRouter from "./lib/site-b2b.js";
 import b2bServerRouter from "./lib/site-b2b-server.js";
 import apiOperationsRouter from "./lib/api-operations.js";
 import intranetRouter from "./lib/site-intranet.js";
+import apiPartnersRouter from "./lib/api-partners.js";
+import apiSalesRouter from "./lib/api-sales.js";
+import apiShopifyRouter from "./lib/api-shopify.js";
 
 const debug = Debug('local-proxy:index');
 
@@ -49,6 +51,19 @@ case 'b2b-server':
 case 'api-operations':
     options.port = 8080;
     app.use(apiOperationsRouter);
+    break;
+
+case 'api-partners':
+    options.port = 8080;
+    app.use(apiPartnersRouter);
+    break;
+case 'api-sales':
+    options.port = 8080;
+    app.use(apiSalesRouter);
+    break;
+case 'api-shopify':
+    options.port = 8080;
+    app.use(apiShopifyRouter);
     break;
 }
 
