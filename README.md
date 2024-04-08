@@ -16,3 +16,8 @@
 ``npm run start-api-shopify`` For developing /api/shopify endpoints
 
 ``npm run start-api-user`` For developing /api/user endpoints
+
+
+## Required Configuration for API endpoint development
+### BitVise SSH client
+  - Set C2S to listen on port localhost:3306 and redirect to localhost:3306 on the server side. 
