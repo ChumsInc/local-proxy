@@ -5,6 +5,7 @@
   "scripts": {
     "start": "nodemon index.js --site=intranet --port=8081",
     "start-80": "nodemon index.js --site=intranet --port=80",
+    "start-api-operations": "nodemon index.js --site=api-operations",
     "start-b2b": "nodemon index.js --site=b2b --port=8081",
     "start-b2b-server": "nodemon index.js --site=b2b-server"
   },
@@ -13,7 +14,7 @@
     "command-line-args": "^5.1.1",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
-    "debug": "^4.3.1",
+    "debug": "^4.3.4",
     "dotenv": "^16.3.1",
     "express": "^4.17.1",
     "http-proxy": "^1.18.1",

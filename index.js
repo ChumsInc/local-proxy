@@ -6,6 +6,10 @@ import * as http from "node:http";
 import Debug from 'debug';
 import httpProxy from 'http-proxy';
 import commandLineArgs from "command-line-args";
+import b2bRouter from "./lib/site-b2b.js";
+import b2bServerRouter from "./lib/site-b2b-server.js";
+import apiOperationsRouter from "./lib/api-operations.js";
+import intranetRouter from "./lib/site-intranet.js";
 
 const debug = Debug('local-proxy:index');
 
@@ -18,46 +22,6 @@ if (!options.port) {
     options.port = process.env.PORT;
 }
 console.log('options', options);
-
-let clientName = null;
-let clientSecret = null;
-switch (options.site) {
-case 'intranet':
-case 'b2b':
-case 'b2b-server':
-    clientName = process.env.INTRANET_API_CLIENT;
-    clientSecret = process.env.INTRANET_API_SECRET;
-    break;
-}
-
-if (!clientName || !clientSecret) {
-    console.log('Invalid Credentials');
-    process.exit();
-}
-
-if (!options.port) {
-    options.port = 8081;
-}
-
-const proxy = httpProxy.createProxyServer({secure: false, changeOrigin: true});
-proxy.on('error', (e) => {
-    debug('onError()', e);
-});
-
-proxy.on('proxyReq', (proxyReq, req, res, options) => {
-    proxyReq.setHeader('X-Special-Proxy-Header', 'foobar');
-});
-
-const proxyAuth = httpProxy.createProxyServer({
-    secure: false,
-    changeOrigin: true,
-    auth: `${clientName}:${clientSecret}`
-});
-
-proxyAuth.on('proxyReq', (proxyReq, req, res, options) => {
-    proxyReq.setHeader('X-Special-Proxy-Header', 'foobar');
-});
-
 const app = express();
 
 app.locals.pretty = true;
@@ -71,126 +35,21 @@ app.use((req, res, next) => {
 
 switch (options.site) {
 case 'intranet':
-    app.use('/intranet', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/'});
-    });
-
-    app.use('/images', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/images/'});
-    });
-
-    app.use('/pm-images', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/pm-images/'});
-    });
-
-    app.use('/api/user', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/api/user/'});
-    });
-
-    app.use('/api', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/api/'});
-    });
-
-    app.use('/node-dev', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/node-dev/'});
-    });
-
-    app.use('/node', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/node/'});
-    });
-
-    app.use('/node-api', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/node/'});
-    });
-
-    app.use('/node_modules', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/node_modules/'});
-    });
-
-    app.use('/node-sage', (req, res) => {
-        proxyAuth.web(req, res, {target: `https://intranet.chums.com/node-sage/`});
-    });
-
-    app.use('/sage', (req, res) => {
-        proxyAuth.web(req, res, {target: `https://intranet.chums.com/sage/`});
-    });
-
-    app.use('/arches', (req, res) => {
-        proxyAuth.web(req, res, {target: `https://intranet.chums.com/arches/`});
-    });
-
-    app.use('/node-b2b', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/node-b2b/'});
-    });
-
-    app.use('/timeclock', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://intranet.chums.com/timeclock/'});
-    });
+    app.use(intranetRouter);
     break;
 
 case 'b2b':
-    app.use('/node-dev', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/node-dev/'});
-    });
-
-    app.use('/node', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/node/'});
-    });
-
-    app.use('/node_modules', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/node_modules/'});
-    });
-
-    app.use('/node-sage', (req, res) => {
-        proxyAuth.web(req, res, {target: `https://b2b.chums.com/node-sage/`});
-    });
-
-    app.use('/node-chums', (req, res) => {
-        proxyAuth.web(req, res, {target: `https://b2b.chums.com/node-chums/`});
-    });
-
-
-    app.use('/sage', (req, res) => {
-        proxyAuth.web(req, res, {target: `https://b2b.chums.com/sage/`});
-    });
-
-    app.use('/api', (req, res) => {
-        proxy.web(req, res, {target: 'https://b2b.chums.com/api/'});
-    });
-
-    app.use('/images', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/images/'});
-    });
-
-    app.use('/files', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/files/'});
-    });
-
-    app.use('/pdf', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/pdf/'});
-    });
-
-    app.use('/version', (req, res) => {
-        proxyAuth.web(req, res, {target: 'http://localhost:8080/package.json', ignorePath: true});
-    });
-
+    app.use(b2bRouter);
     break;
 
 case 'b2b-server':
-    app.use('/keywords', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/api/keywords'});
-    })
-    app.use('/preload', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/api/preload'});
-    })
-    app.use('/images', (req, res) => {
-        proxyAuth.web(req, res, {target: 'https://b2b.chums.com/images/'});
-    });
-    app.use('/version', (req, res) => {
-        proxyAuth.web(req, res, {target: 'http://localhost:8080/package.json', ignorePath: true});
-    });
+    app.use(b2bServerRouter);
     break;
 
+case 'api-operations':
+    options.port = 8080;
+    app.use(apiOperationsRouter);
+    break;
 }
 
 app.use(bodyParser.json());
