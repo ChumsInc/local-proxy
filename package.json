@@ -5,11 +5,11 @@
   "scripts": {
     "start": "nodemon index.js --site=intranet --port=8081",
     "start-80": "nodemon index.js --site=intranet --port=80",
-    "start-api-operations": "nodemon index.js --site=api-operations",
-    "start-api-partners": "nodemon index.js --site=api-partners",
-    "start-api-sales": "nodemon index.js --site=api-sales",
-    "start-api-shopify": "nodemon index.js --site=api-shopify",
-    "start-api-user": "nodemon index.js --site=api-user",
+    "api-operations": "nodemon index.js --site=api-operations",
+    "api-partners": "nodemon index.js --site=api-partners",
+    "api-sales": "nodemon index.js --site=api-sales",
+    "api-shopify": "nodemon index.js --site=api-shopify",
+    "api-user": "nodemon index.js --site=api-user",
     "start-b2b": "nodemon index.js --site=b2b --port=8081",
     "start-b2b-server": "nodemon index.js --site=b2b-server"
   },

@@ -7,15 +7,15 @@
 ``npm run start-b2b`` For Chums b2b development
 
 ### The following by default listen on port 8080 for API endpoint development
-``npm run start-api-operations`` For developing /api/operations endpoints
+``npm run api-operations`` For developing /api/operations endpoints
 
-``npm run start-api-partners`` For developing /api/partners endpoints
+``npm run api-partners`` For developing /api/partners endpoints
 
-``npm run start-api-sales`` For developing /api/sales endpoints
+``npm run api-sales`` For developing /api/sales endpoints
 
-``npm run start-api-shopify`` For developing /api/shopify endpoints
+``npm run api-shopify`` For developing /api/shopify endpoints
 
-``npm run start-api-user`` For developing /api/user endpoints
+``npm run api-user`` For developing /api/user endpoints
 
 
 ## Required Configuration for API endpoint development
