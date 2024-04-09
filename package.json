@@ -1,7 +1,7 @@
 {
   "name": "local-proxy",
   "type": "module",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "scripts": {
     "start": "nodemon index.js --site=intranet --port=8081",
     "start-80": "nodemon index.js --site=intranet --port=80",
