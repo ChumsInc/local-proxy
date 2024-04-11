@@ -72,4 +72,4 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 const server = http.createServer(app);
 server.listen(options.port, 'localhost');
-debug('listening on localhost:' + options.port);
+debug(`listening on localhost: ${options.port}`);
