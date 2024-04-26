@@ -9,6 +9,7 @@
     "api-partners": "nodemon index.js --site=api-partners",
     "api-sales": "nodemon index.js --site=api-sales",
     "api-shopify": "nodemon index.js --site=api-shopify",
+    "api-timeclock": "nodemon index.js --site=api-timeclock",
     "api-user": "nodemon index.js --site=api-user",
     "start-b2b": "nodemon index.js --site=b2b --port=8081",
     "start-b2b-server": "nodemon index.js --site=b2b-server"
@@ -22,6 +23,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.17.1",
     "http-proxy": "^1.18.1",
+    "http-proxy-rules": "^1.1.3",
     "nodemon": "^3.0.1"
   },
   "nodemonConfig": {

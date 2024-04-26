@@ -5,13 +5,15 @@ import compression from 'compression';
 import * as http from "node:http";
 import Debug from 'debug';
 import commandLineArgs from "command-line-args";
-import b2bRouter from "./lib/site-b2b.js";
 import b2bServerRouter from "./lib/site-b2b-server.js";
-import apiOperationsRouter from "./lib/api-operations.js";
-import intranetRouter from "./lib/site-intranet.js";
-import apiPartnersRouter from "./lib/api-partners.js";
-import apiSalesRouter from "./lib/api-sales.js";
-import apiShopifyRouter from "./lib/api-shopify.js";
+import HttpProxyRules from "http-proxy-rules";
+import {proxySettings} from './proxy-settings.js'
+
+const defaultRules = new HttpProxyRules({
+    rules: {},
+});
+
+let rules = defaultRules;
 
 const debug = Debug('local-proxy:index');
 
@@ -36,39 +38,36 @@ app.use((req, res, next) => {
 });
 
 switch (options.site) {
-case 'intranet':
-    app.use(intranetRouter);
-    break;
-
-case 'b2b':
-    app.use(b2bRouter);
-    break;
-
 case 'b2b-server':
-    app.use(b2bServerRouter);
-    break;
-
+case 'intranet':
+case 'b2b':
 case 'api-operations':
-    options.port = 8080;
-    app.use(apiOperationsRouter);
-    break;
-
 case 'api-partners':
-    options.port = 8080;
-    app.use(apiPartnersRouter);
-    break;
 case 'api-sales':
-    options.port = 8080;
-    app.use(apiSalesRouter);
-    break;
 case 'api-shopify':
-    options.port = 8080;
-    app.use(apiShopifyRouter);
+case 'api-timeclock':
+    options.port = options.port ?? proxySettings[options.site]?.listen;
+    app.use((req, res, next) => {
+        const target = proxySettings[options.site]?.rules?.match(req);
+        if (target) {
+            let ignorePath = false;
+            if (proxySettings[options.site]?.ignorePath) {
+                ignorePath = proxySettings[options.site].ignorePath(req.path);
+            }
+            return proxySettings[options.site]?.proxy.web(req, res, {target, ignorePath});
+        }
+        next();
+    })
     break;
+default:
+    debug(`Invalid site for proxy configuration()`,);
 }
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use((req, res) => {
+    res.status(404).send('Sorry, not found!');
+})
 
 const server = http.createServer(app);
 server.listen(options.port, 'localhost');
