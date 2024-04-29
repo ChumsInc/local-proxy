@@ -5,7 +5,6 @@ import compression from 'compression';
 import * as http from "node:http";
 import Debug from 'debug';
 import commandLineArgs from "command-line-args";
-import b2bServerRouter from "./lib/site-b2b-server.js";
 import HttpProxyRules from "http-proxy-rules";
 import {proxySettings} from './proxy-settings.js'
 
