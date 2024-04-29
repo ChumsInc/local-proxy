@@ -54,6 +54,16 @@ export const proxySettings = {
         proxy,
         rules: new HttpProxyRules({
             rules: {
+                '/api/user': 'https://intranet.chums.com/api/user',
+            },
+        })
+    },
+    'api-images': {
+        listen: 80,
+        proxy,
+        rules: new HttpProxyRules({
+            rules: {
+                '/api/user': 'https://intranet.chums.com/api/user',
                 '/node-sage': 'https://intranet.chums.com/node-sage',
             },
         })
@@ -72,6 +82,18 @@ export const proxySettings = {
         })
     },
     'api-partners': {
+        listen: 80,
+        proxy,
+        rules: new HttpProxyRules({
+            rules: {
+                '/api/operations': 'https://intranet.chums.com/api/operations',
+                '/api/user': 'https://intranet.chums.com/api/user',
+                '/node-sage': 'https://intranet.chums.com/node-sage',
+                '/sage': 'https://intranet.chums.com/sage',
+            }
+        })
+    },
+    'api-sage': {
         listen: 80,
         proxy,
         rules: new HttpProxyRules({
