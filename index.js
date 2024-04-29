@@ -5,22 +5,21 @@ import compression from 'compression';
 import * as http from "node:http";
 import Debug from 'debug';
 import commandLineArgs from "command-line-args";
-import HttpProxyRules from "http-proxy-rules";
 import {proxySettings} from './proxy-settings.js'
 
-const defaultRules = new HttpProxyRules({
-    rules: {},
-});
 
-let rules = defaultRules;
 
 const debug = Debug('local-proxy:index');
+
+debug('init()', process.argv);
 
 const optionDefinitions = [
     {name: 'site', alias: 's', type: String},
     {name: 'port', type: Number},
 ];
 const options = commandLineArgs(optionDefinitions);
+debug('options:', options);
+
 if (!options.port) {
     options.port = process.env.PORT;
 }
@@ -40,6 +39,8 @@ switch (options.site) {
 case 'b2b-server':
 case 'intranet':
 case 'b2b':
+case 'api-b2b':
+case 'api-chums':
 case 'api-operations':
 case 'api-partners':
 case 'api-sales':

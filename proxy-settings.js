@@ -41,6 +41,23 @@ export const proxySettings = {
             return target === '/version';
         }
     },
+    'api-b2b': {
+        listen: 80,
+        proxy,
+        rules: new HttpProxyRules({
+            rules: {
+            },
+        })
+    },
+    'api-chums': {
+        listen: 80,
+        proxy,
+        rules: new HttpProxyRules({
+            rules: {
+                '/node-sage': 'https://intranet.chums.com/node-sage',
+            },
+        })
+    },
     'api-operations': {
         listen: 80,
         proxy,

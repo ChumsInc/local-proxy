@@ -3,16 +3,17 @@
   "type": "module",
   "version": "0.1.1",
   "scripts": {
-    "start": "nodemon index.js --site=intranet --port=8081",
-    "start-80": "nodemon index.js --site=intranet --port=80",
+    "api-chums": "nodemon index.js --site=api-chums",
     "api-operations": "nodemon index.js --site=api-operations",
     "api-partners": "nodemon index.js --site=api-partners",
     "api-sales": "nodemon index.js --site=api-sales",
     "api-shopify": "nodemon index.js --site=api-shopify",
     "api-timeclock": "nodemon index.js --site=api-timeclock",
     "api-user": "nodemon index.js --site=api-user",
-    "start-b2b": "nodemon index.js --site=b2b --port=8081",
-    "start-b2b-server": "nodemon index.js --site=b2b-server"
+    "b2b": "nodemon index.js --site=b2b --port=8081",
+    "b2b-server": "nodemon index.js --site=b2b-server",
+    "intranet": "nodemon index.js --site=intranet --port=8081",
+    "intranet-80": "nodemon index.js --site=intranet --port=80"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
