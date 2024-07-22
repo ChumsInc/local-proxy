@@ -31,7 +31,7 @@ app.set('json spaces', 2);
 
 app.use(compression());
 app.use((req, res, next) => {
-    debug(req.method, req.url);
+    debug(options.site, req.method, req.url);
     next();
 });
 
