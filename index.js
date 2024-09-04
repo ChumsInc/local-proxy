@@ -54,7 +54,15 @@ case 'api-timeclock':
             if (proxySettings[options.site]?.ignorePath) {
                 ignorePath = proxySettings[options.site].ignorePath(req.path);
             }
-            return proxySettings[options.site]?.proxy.web(req, res, {target, ignorePath});
+            try {
+                return proxySettings[options.site]?.proxy.web(req, res, {target, ignorePath});
+            } catch(err) {
+                if (err instanceof Error) {
+                    debug("()", err.message);
+                    return res.json({error: err.message, name: err.name});
+                }
+                res.json({error: 'unknown error in '});
+            }
         }
         next();
     })

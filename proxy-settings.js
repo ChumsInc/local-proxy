@@ -14,6 +14,7 @@ export const proxySettings = {
                 '/pm-images': 'https://intranet.chums.com/pm-images/',
                 '/api': 'https://intranet.chums.com/api/',
                 '/node_modules': 'https://intranet.chums.com/node_modules/',
+                '/node-dev': 'https://intranet.chums.com/node-dev/',        //@DEPRECATED, remove after updates to product-master
                 '/node-sage': 'https://intranet.chums.com/node-sage/',
                 '/sage': 'https://intranet.chums.com/sage/',
                 '/arches': 'https://intranet.chums.com/arches/',
@@ -73,6 +74,7 @@ export const proxySettings = {
         proxy,
         rules: new HttpProxyRules({
             rules: {
+                '/api/operations': 'http://localhost:8088/',
                 '/api/user': 'https://intranet.chums.com/api/user',
                 '/api/shopify': 'https://intranet.chums.com/api/shopify',
                 '/node-sage': 'https://intranet.chums.com/node-sage',
@@ -86,6 +88,7 @@ export const proxySettings = {
         proxy,
         rules: new HttpProxyRules({
             rules: {
+                '/api/partners': 'http://localhost:8089/',
                 '/api/operations': 'https://intranet.chums.com/api/operations',
                 '/api/user': 'https://intranet.chums.com/api/user',
                 '/node-sage': 'https://intranet.chums.com/node-sage',
@@ -117,7 +120,12 @@ export const proxySettings = {
         proxy,
         rules: new HttpProxyRules({
             rules: {
+                '/api/operations': 'http://localhost:8088/',
                 '/api/user': 'https://intranet.chums.com/api/user',
+                '/api/shopify': 'https://intranet.chums.com/api/shopify',
+                '/node-sage': 'https://intranet.chums.com/node-sage',
+                '/sage': 'https://intranet.chums.com/sage',
+                '/api/search': 'https://intranet.chums.com/api/search',
             }
         })
     },

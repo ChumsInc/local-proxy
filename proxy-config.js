@@ -25,6 +25,12 @@ export const proxyAuth = (clientName, clientSecret) => {
     proxy.on('proxyReq', (proxyReq, req, res, options) => {
         proxyReq.setHeader('X-Special-Proxy-Header', 'foobar');
     });
+    proxy.on('error', (err, req, res) => {
+        res.writeHead(500, {
+            'Content-Type': 'text/plain'
+        })
+        res.end(`Something went wrong requesting: ${req.url}`);
+    })
     return proxy;
 }
 
