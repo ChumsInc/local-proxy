@@ -1,7 +1,7 @@
 import HttpProxyRules from 'http-proxy-rules';
-import {proxyAuth} from "./proxy-config.js";
+import {getAPIProxy} from "./proxy-config.ts";
 
-const proxy = proxyAuth(process.env.INTRANET_API_CLIENT, process.env.INTRANET_API_SECRET);
+const proxy = getAPIProxy(process.env.INTRANET_API_CLIENT, process.env.INTRANET_API_SECRET);
 
 export const proxySettings = {
     intranet: {
@@ -42,11 +42,14 @@ export const proxySettings = {
             return target === '/version';
         }
     },
-    'api-b2b': {
-        listen: 80,
+    'b2b-api': {
+        listen: 8081,
         proxy,
+
         rules: new HttpProxyRules({
             rules: {
+                '/api/b2b': 'http://localhost:8081/',
+                '/api/user': 'https://intranet.chums.com',
             },
         })
     },
