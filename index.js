@@ -5,7 +5,7 @@ import compression from 'compression';
 import * as http from "node:http";
 import Debug from 'debug';
 import commandLineArgs from "command-line-args";
-import { b2bProxy, devAPIB2B, devAPIChums, devAPIOperations, devAPIPartners, devAPISage, devAPIShopify, devAPIUser, getListenPort, intranetProxy } from "./get-proxy.js";
+import { b2bProxy, devAPIB2B, devAPIChums, devAPIOperations, devAPIPartners, devAPISage, devAPISales, devAPIShopify, devAPIUser, getListenPort, intranetProxy } from "./get-proxy.js";
 const debug = Debug('local-proxy:index');
 debug('init()', process.argv);
 const optionDefinitions = [
@@ -46,6 +46,10 @@ switch (options.site) {
         app.use('/sage', intranetProxy());
         app.use('/timeclock', intranetProxy());
         break;
+    case 'inventory-entry':
+        app.use('/api/operations', devAPIOperations());
+        app.use('/api', intranetProxy());
+        break;
     case 'b2b-api':
         app.use('/api/user', intranetProxy());
         app.use('/api/b2b', devAPIB2B()); // when testing calls made to intranet
@@ -71,7 +75,7 @@ switch (options.site) {
         app.use('/api', intranetProxy());
         break;
     case 'api-sales':
-        app.use('/api/partners', devAPIPartners());
+        app.use('/api/sales', devAPISales());
         app.use('/api/user', intranetProxy());
         app.use('/api', intranetProxy());
         break;

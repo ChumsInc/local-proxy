@@ -10,7 +10,7 @@ import {
     devAPIB2B,
     devAPIChums,
     devAPIOperations,
-    devAPIPartners, devAPISage, devAPIShopify,
+    devAPIPartners, devAPISage, devAPISales, devAPIShopify,
     devAPIUser,
     getListenPort,
     intranetProxy
@@ -63,6 +63,10 @@ switch (options.site) {
         app.use('/sage', intranetProxy());
         app.use('/timeclock', intranetProxy());
         break;
+    case 'inventory-entry':
+        app.use('/api/operations', devAPIOperations());
+        app.use('/api', intranetProxy());
+        break;
     case 'b2b-api':
         app.use('/api/user', intranetProxy())
         app.use('/api/b2b', devAPIB2B()); // when testing calls made to intranet
@@ -88,7 +92,7 @@ switch (options.site) {
         app.use('/api', intranetProxy())
         break;
     case 'api-sales':
-        app.use('/api/partners', devAPIPartners());
+        app.use('/api/sales', devAPISales());
         app.use('/api/user', intranetProxy());
         app.use('/api', intranetProxy())
         break;

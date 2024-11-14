@@ -16,6 +16,7 @@
     "b2b-api": "nodemon index.js --site=b2b-api",
     "b2b-server": "nodemon index.js --site=b2b-server",
     "intranet": "nodemon index.js --site=intranet --port=8081",
+    "inventory-entry": "nodemon index.js --site=inventory-entry --port=8081",
     "intranet-80": "nodemon index.js --site=intranet --port=80"
   },
   "dependencies": {
