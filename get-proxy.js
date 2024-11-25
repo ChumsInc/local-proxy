@@ -12,7 +12,8 @@ const intranetProxyOptions = {
     proxyReqOptDecorator: (proxyReqOpts) => ({
         ...proxyReqOpts,
         auth: getIntranetAuth()
-    })
+    }),
+    limit: '10mb'
 };
 export const intranetProxy = () => proxy('https://intranet.chums.com', { ...intranetProxyOptions });
 export const b2bProxy = () => proxy('https://b2b.chums.com', { ...intranetProxyOptions });

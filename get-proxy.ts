@@ -16,7 +16,8 @@ const intranetProxyOptions: ProxyOptions = {
     proxyReqOptDecorator: (proxyReqOpts) => ({
         ...proxyReqOpts,
         auth: getIntranetAuth()
-    })
+    }),
+    limit: '10mb'
 }
 
 

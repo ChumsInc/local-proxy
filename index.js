@@ -11,6 +11,7 @@ debug('init()', process.argv);
 const optionDefinitions = [
     { name: 'site', alias: 's', type: String },
     { name: 'port', type: Number },
+    { name: 'local', type: String, multiple: true },
 ];
 const options = commandLineArgs(optionDefinitions);
 debug('options:', options);
@@ -28,6 +29,12 @@ app.use((req, res, next) => {
 });
 switch (options.site) {
     case 'b2b':
+    case 'b2b:local':
+        app.use('/api/user', b2bProxy());
+        app.use('/api/sales', b2bProxy());
+        if (options.local && options.local.includes('b2b-api')) {
+            app.use('/api', devAPIB2B());
+        }
         app.use('/api', b2bProxy());
         app.use('/node_modules', b2bProxy());
         app.use('/node-sage', b2bProxy());

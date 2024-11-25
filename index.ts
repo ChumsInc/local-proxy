@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import compression from 'compression';
 import * as http from "node:http";
 import Debug from 'debug';
-import commandLineArgs from "command-line-args";
+import commandLineArgs, {CommandLineOptions, OptionDefinition} from "command-line-args";
 import {
     b2bProxy,
     devAPIB2B,
@@ -21,9 +21,10 @@ const debug = Debug('local-proxy:index');
 
 debug('init()', process.argv);
 
-const optionDefinitions = [
+const optionDefinitions:OptionDefinition[] = [
     {name: 'site', alias: 's', type: String},
     {name: 'port', type: Number},
+    {name: 'local', type: String, multiple: true},
 ];
 const options = commandLineArgs(optionDefinitions);
 debug('options:', options);
@@ -45,6 +46,12 @@ app.use((req, res, next) => {
 
 switch (options.site) {
     case 'b2b':
+    case 'b2b:local':
+        app.use('/api/user', b2bProxy());
+        app.use('/api/sales', b2bProxy());
+        if (options.local && options.local.includes('b2b-api')) {
+            app.use('/api', devAPIB2B());
+        }
         app.use('/api', b2bProxy())
         app.use('/node_modules', b2bProxy());
         app.use('/node-sage', b2bProxy());
