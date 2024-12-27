@@ -11,7 +11,7 @@ import {
     devAPIChums,
     devAPIOperations,
     devAPIPartners, devAPISage, devAPISales, devAPIShopify,
-    devAPIUser,
+    devAPIUser, devB2BVersion,
     getListenPort,
     intranetProxy
 } from "./get-proxy.js";
@@ -59,7 +59,7 @@ switch (options.site) {
         app.use('/images', b2bProxy());
         app.use('/file', b2bProxy());
         app.use('/pdf', b2bProxy());
-        app.use('/version', b2bProxy());
+        app.use('/version', devB2BVersion());
         break;
     case 'intranet':
         app.use('/api', intranetProxy());

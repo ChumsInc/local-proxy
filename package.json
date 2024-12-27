@@ -12,7 +12,7 @@
     "api-shopify": "nodemon index.js --site=api-shopify",
     "api-timeclock": "nodemon index.js --site=api-timeclock",
     "api-user": "nodemon index.js --site=api-user",
-    "b2b": "nodemon index.js --site=b2b --port=8081",
+    "b2b": "nodemon index.js --site=b2b --port=80",
     "b2b:local": "nodemon index.js --site=b2b --port=80 --local=b2b-api",
     "b2b-api": "nodemon index.js --site=b2b-api",
     "b2b-server": "nodemon index.js --site=b2b-server",
@@ -46,6 +46,7 @@
     "@types/debug": "^4.1.12",
     "@types/express-http-proxy": "^1.6.6",
     "@types/http-proxy": "^1.17.15",
+    "@types/node": "^22.10.2",
     "typescript": "^5.6.2"
   }
 }

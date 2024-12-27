@@ -5,7 +5,7 @@ import compression from 'compression';
 import * as http from "node:http";
 import Debug from 'debug';
 import commandLineArgs from "command-line-args";
-import { b2bProxy, devAPIB2B, devAPIChums, devAPIOperations, devAPIPartners, devAPISage, devAPISales, devAPIShopify, devAPIUser, getListenPort, intranetProxy } from "./get-proxy.js";
+import { b2bProxy, devAPIB2B, devAPIChums, devAPIOperations, devAPIPartners, devAPISage, devAPISales, devAPIShopify, devAPIUser, devB2BVersion, getListenPort, intranetProxy } from "./get-proxy.js";
 const debug = Debug('local-proxy:index');
 debug('init()', process.argv);
 const optionDefinitions = [
@@ -42,7 +42,7 @@ switch (options.site) {
         app.use('/images', b2bProxy());
         app.use('/file', b2bProxy());
         app.use('/pdf', b2bProxy());
-        app.use('/version', b2bProxy());
+        app.use('/version', devB2BVersion());
         break;
     case 'intranet':
         app.use('/api', intranetProxy());
