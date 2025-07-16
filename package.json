@@ -1,7 +1,7 @@
 {
   "name": "local-proxy",
   "type": "module",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "scripts": {
     "api-b2b": "nodemon index.js --site=b2b-api",
     "api-chums": "nodemon index.js --site=api-chums",
