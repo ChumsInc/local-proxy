@@ -4,14 +4,19 @@ import bodyParser from "body-parser";
 import compression from 'compression';
 import * as http from "node:http";
 import Debug from 'debug';
-import commandLineArgs, {CommandLineOptions, OptionDefinition} from "command-line-args";
+import commandLineArgs, {OptionDefinition} from "command-line-args";
 import {
     b2bProxy,
     devAPIB2B,
     devAPIChums,
+    devAPIImages,
     devAPIOperations,
-    devAPIPartners, devAPISage, devAPISales, devAPIShopify,
-    devAPIUser, devB2BVersion,
+    devAPIPartners,
+    devAPISage,
+    devAPISales,
+    devAPIShopify,
+    devAPIUser,
+    devB2BVersion,
     getListenPort,
     intranetProxy
 } from "./get-proxy.js";
@@ -21,7 +26,7 @@ const debug = Debug('local-proxy:index');
 
 debug('init()', process.argv);
 
-const optionDefinitions:OptionDefinition[] = [
+const optionDefinitions: OptionDefinition[] = [
     {name: 'site', alias: 's', type: String},
     {name: 'port', type: Number},
     {name: 'local', type: String, multiple: true},
@@ -63,6 +68,7 @@ switch (options.site) {
         break;
     case 'intranet':
         app.use('/api', intranetProxy());
+        app.use('/apps', intranetProxy());
         app.use('/images', intranetProxy());
         app.use('/node_modules', intranetProxy());
         app.use('/pm-images', intranetProxy());
@@ -77,7 +83,8 @@ switch (options.site) {
     case 'b2b-api':
         app.use('/api/user', intranetProxy())
         app.use('/api/b2b', devAPIB2B()); // when testing calls made to intranet
-        app.use('/api', b2bProxy()); //when testing calls made to b2b
+        app.use('/api', devAPIB2B()); // when testing calls made to intranet
+        // app.use('/api', b2bProxy()); //when testing calls made to b2b
         break;
     case 'api-chums':
         app.use('/api/user', intranetProxy());
@@ -112,6 +119,11 @@ switch (options.site) {
         app.use('/api/user', devAPIUser());
         app.use('/api', intranetProxy())
         break;
+    case 'api-images':
+        app.use('/api/images', devAPIImages());
+        app.use('/api/user', intranetProxy())
+        app.use('/api', intranetProxy())
+        break;
     default:
         debug(`Invalid site for proxy configuration()`);
 }
@@ -119,7 +131,7 @@ switch (options.site) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use((req, res) => {
-    res.status(404).send('Sorry, not found!');
+    res.status(404).send('local-proxy: Sorry, not found!');
 })
 
 const server = http.createServer(app);
