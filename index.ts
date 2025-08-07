@@ -12,6 +12,7 @@ import {
     devAPIImages,
     devAPIOperations,
     devAPIPartners,
+    devAPIPayroll,
     devAPISage,
     devAPISales,
     devAPIShopify,
@@ -97,6 +98,11 @@ switch (options.site) {
         break;
     case 'api-partners':
         app.use('/api/partners', devAPIPartners());
+        app.use('/api/user', intranetProxy());
+        app.use('/api', intranetProxy())
+        break;
+    case 'api-payroll':
+        app.use('/api/payroll', devAPIPayroll());
         app.use('/api/user', intranetProxy());
         app.use('/api', intranetProxy())
         break;

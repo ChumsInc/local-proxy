@@ -8,6 +8,7 @@
     "api-images": "nodemon index.js --site=api-images",
     "api-operations": "nodemon index.js --site=api-operations",
     "api-partners": "nodemon index.js --site=api-partners",
+    "api-payroll": "nodemon index.js --site=api-payroll",
     "api-sage": "nodemon index.js --site=api-sage",
     "api-sales": "nodemon index.js --site=api-sales",
     "api-shopify": "nodemon index.js --site=api-shopify",

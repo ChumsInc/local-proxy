@@ -64,6 +64,13 @@ export const devAPIPartners = () => proxy('http://localhost:8089', {
     })
 })
 
+export const devAPIPayroll = () => proxy('http://localhost:8003', {
+    proxyReqOptDecorator: (proxyReqOpts) => ({
+        ...proxyReqOpts,
+        auth: getIntranetAuth()
+    })
+})
+
 export const devAPISage = () => proxy('http://localhost:8010', {
     proxyReqOptDecorator: (proxyReqOpts) => ({
         ...proxyReqOpts,
