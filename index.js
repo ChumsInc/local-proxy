@@ -44,6 +44,21 @@ switch (options.site) {
         app.use('/pdf', b2bProxy());
         app.use('/version', devB2BVersion());
         break;
+    case 'b2b-server':
+        app.use('/api/user', b2bProxy());
+        app.use('/api/sales', b2bProxy());
+        if (options.local && options.local.includes('b2b-api')) {
+            app.use('/api', devAPIB2B());
+        }
+        app.use('/api', b2bProxy());
+        app.use('/node_modules', b2bProxy());
+        app.use('/node-sage', b2bProxy());
+        app.use('/sage', b2bProxy());
+        app.use('/images', b2bProxy());
+        app.use('/file', b2bProxy());
+        app.use('/pdf', b2bProxy());
+        app.use('/version', devB2BVersion());
+        break;
     case 'intranet':
         app.use('/api', intranetProxy());
         app.use('/apps', intranetProxy());

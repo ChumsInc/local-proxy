@@ -93,6 +93,7 @@ export const devAPIShopify = () => proxy('http://localhost:8086', {
 })
 
 export const devAPIUser = () => proxy('http://localhost:8085', {
+    timeout: 30000,
     proxyReqOptDecorator: (proxyReqOpts) => ({
         ...proxyReqOpts,
         auth: getIntranetAuth()
