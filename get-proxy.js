@@ -3,7 +3,7 @@ import process from 'node:process';
 const apiClient = process.env.INTRANET_API_CLIENT ?? 'missing';
 const apiSecret = process.env.INTRANET_API_SECRET ?? 'unknown';
 const getIntranetAuth = () => {
-    if (!apiClient || !apiSecret || apiClient === 'missing' || apiSecret == 'unknown') {
+    if (!apiClient || !apiSecret || apiClient === 'missing' || apiSecret === 'unknown') {
         console.warn('\n\n\n*** Mising environment values. Please check for a valid .env file. ***\n\n\n');
         process.exit(1);
     }
