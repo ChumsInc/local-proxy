@@ -2,6 +2,7 @@ import proxy from 'express-http-proxy';
 import process from 'node:process';
 const apiClient = process.env.INTRANET_API_CLIENT ?? 'missing';
 const apiSecret = process.env.INTRANET_API_SECRET ?? 'unknown';
+const phpStormPort = process.env.PHPSTORM_PORT ?? '65536';
 const getIntranetAuth = () => {
     if (!apiClient || !apiSecret || apiClient === 'missing' || apiSecret === 'unknown') {
         console.warn('\n\n\n*** Mising environment values. Please check for a valid .env file. ***\n\n\n');
@@ -20,6 +21,7 @@ const intranetProxyOptions = {
     limit: '10mb'
 };
 export const intranetProxy = () => proxy('https://intranet.chums.com', { ...intranetProxyOptions });
+export const phpStormProxy = () => proxy(`http://localhost:${phpStormPort}`, { ...intranetProxyOptions });
 export const b2bProxy = () => proxy('https://b2b.chums.com', { ...intranetProxyOptions });
 export const devB2BVersion = () => proxy('http://localhost:8080/package.json', { proxyReqPathResolver: () => '/package.json' });
 export const devAPIB2B = () => proxy('http://localhost:8081', {

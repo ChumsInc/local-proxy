@@ -19,7 +19,7 @@ import {
     devAPIUser,
     devB2BVersion,
     getListenPort,
-    intranetProxy
+    intranetProxy, phpStormProxy
 } from "./get-proxy.js";
 
 
@@ -91,6 +91,17 @@ switch (options.site) {
         app.use('/node-sage', intranetProxy());
         app.use('/sage', intranetProxy());
         app.use('/timeclock', intranetProxy());
+        break;
+    case 'dev:local':
+        app.use('/api', intranetProxy());
+        app.use('/apps', intranetProxy());
+        app.use('/images', intranetProxy());
+        app.use('/node_modules', intranetProxy());
+        app.use('/pm-images', intranetProxy());
+        app.use('/node-sage', intranetProxy());
+        app.use('/sage', intranetProxy());
+        app.use('/timeclock', intranetProxy());
+        app.use('/', phpStormProxy())
         break;
     case 'inventory-entry':
         app.use('/api/operations', devAPIOperations());

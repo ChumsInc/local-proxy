@@ -5,7 +5,7 @@ import compression from 'compression';
 import * as http from "node:http";
 import Debug from 'debug';
 import commandLineArgs from "command-line-args";
-import { b2bProxy, devAPIB2B, devAPIChums, devAPIImages, devAPIOperations, devAPIPartners, devAPIPayroll, devAPISage, devAPISales, devAPIShopify, devAPIUser, devB2BVersion, getListenPort, intranetProxy } from "./get-proxy.js";
+import { b2bProxy, devAPIB2B, devAPIChums, devAPIImages, devAPIOperations, devAPIPartners, devAPIPayroll, devAPISage, devAPISales, devAPIShopify, devAPIUser, devB2BVersion, getListenPort, intranetProxy, phpStormProxy } from "./get-proxy.js";
 const debug = Debug('local-proxy:index');
 debug('init()', process.argv);
 const optionDefinitions = [
@@ -68,6 +68,17 @@ switch (options.site) {
         app.use('/node-sage', intranetProxy());
         app.use('/sage', intranetProxy());
         app.use('/timeclock', intranetProxy());
+        break;
+    case 'dev:local':
+        app.use('/api', intranetProxy());
+        app.use('/apps', intranetProxy());
+        app.use('/images', intranetProxy());
+        app.use('/node_modules', intranetProxy());
+        app.use('/pm-images', intranetProxy());
+        app.use('/node-sage', intranetProxy());
+        app.use('/sage', intranetProxy());
+        app.use('/timeclock', intranetProxy());
+        app.use('/', phpStormProxy());
         break;
     case 'inventory-entry':
         app.use('/api/operations', devAPIOperations());
