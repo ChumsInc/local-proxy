@@ -21,7 +21,7 @@ const intranetProxyOptions = {
     limit: '10mb'
 };
 export const intranetProxy = () => proxy('https://intranet.chums.com', { ...intranetProxyOptions });
-export const phpStormProxy = () => proxy(`http://localhost:${phpStormPort}`, { ...intranetProxyOptions });
+export const phpStormProxy = proxy(`http://localhost:${phpStormPort}`, { ...intranetProxyOptions });
 export const b2bProxy = () => proxy('https://b2b.chums.com', { ...intranetProxyOptions });
 export const devB2BVersion = () => proxy('http://localhost:8080/package.json', { proxyReqPathResolver: () => '/package.json' });
 export const devAPIB2B = () => proxy('http://localhost:8081', {

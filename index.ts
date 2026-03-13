@@ -19,7 +19,8 @@ import {
     devAPIUser,
     devB2BVersion,
     getListenPort,
-    intranetProxy, phpStormProxy
+    intranetProxy,
+    phpStormProxy
 } from "./get-proxy.js";
 
 
@@ -46,7 +47,7 @@ app.set('json spaces', 2);
 
 app.use(compression());
 app.use((req, res, next) => {
-    debug(options.site, req.method, req.url);
+    debug(options.site, req.protocol, req.method, req.url);
     next();
 });
 
@@ -101,7 +102,7 @@ switch (options.site) {
         app.use('/node-sage', intranetProxy());
         app.use('/sage', intranetProxy());
         app.use('/timeclock', intranetProxy());
-        app.use('/', phpStormProxy())
+        app.use('/', phpStormProxy)
         break;
     case 'inventory-entry':
         app.use('/api/operations', devAPIOperations());
@@ -165,6 +166,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use((req, res) => {
     res.status(404).send('local-proxy: Sorry, not found!');
 })
+
 
 const server = http.createServer(app);
 server.listen(options.port, 'localhost');

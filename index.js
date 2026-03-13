@@ -24,7 +24,7 @@ app.locals.pretty = true;
 app.set('json spaces', 2);
 app.use(compression());
 app.use((req, res, next) => {
-    debug(options.site, req.method, req.url);
+    debug(options.site, req.protocol, req.method, req.url);
     next();
 });
 switch (options.site) {
@@ -78,7 +78,7 @@ switch (options.site) {
         app.use('/node-sage', intranetProxy());
         app.use('/sage', intranetProxy());
         app.use('/timeclock', intranetProxy());
-        app.use('/', phpStormProxy());
+        app.use('/', phpStormProxy);
         break;
     case 'inventory-entry':
         app.use('/api/operations', devAPIOperations());
