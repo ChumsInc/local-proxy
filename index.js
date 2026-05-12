@@ -5,7 +5,7 @@ import compression from 'compression';
 import * as http from "node:http";
 import Debug from 'debug';
 import commandLineArgs from "command-line-args";
-import { b2bProxy, devAPIB2B, devAPIChums, devAPIImages, devAPIOperations, devAPIPartners, devAPIPayroll, devAPISage, devAPISales, devAPIShopify, devAPIUser, devB2BVersion, getListenPort, intranetProxy, phpStormProxy } from "./get-proxy.js";
+import { b2bProxy, devAPIB2B, devAPIChums, devAPIImages, devAPIOperations, devAPIPartners, devAPIPayroll, devAPISage, devAPISageSales, devAPISales, devAPIShopify, devAPIUser, devB2BVersion, getListenPort, intranetProxy, phpStormProxy } from "./get-proxy.js";
 const debug = Debug('local-proxy:index');
 debug('init()', process.argv);
 const optionDefinitions = [
@@ -111,6 +111,11 @@ switch (options.site) {
         break;
     case 'api-sage':
         app.use('/api/sage', devAPISage());
+        app.use('/api/user', intranetProxy());
+        app.use('/api', intranetProxy());
+        break;
+    case 'api-sage-sales':
+        app.use('/api/sage/sales', devAPISageSales());
         app.use('/api/user', intranetProxy());
         app.use('/api', intranetProxy());
         break;

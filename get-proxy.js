@@ -66,6 +66,12 @@ export const devAPISage = () => proxy('http://localhost:8010', {
         auth: getIntranetAuth()
     })
 });
+export const devAPISageSales = () => proxy('http://localhost:8012', {
+    proxyReqOptDecorator: (proxyReqOpts) => ({
+        ...proxyReqOpts,
+        auth: getIntranetAuth(),
+    })
+});
 export const devAPISales = () => proxy('http://localhost:8087', {
     proxyReqOptDecorator: (proxyReqOpts) => ({
         ...proxyReqOpts,

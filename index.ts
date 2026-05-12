@@ -14,6 +14,7 @@ import {
     devAPIPartners,
     devAPIPayroll,
     devAPISage,
+    devAPISageSales,
     devAPISales,
     devAPIShopify,
     devAPIUser,
@@ -137,6 +138,11 @@ switch (options.site) {
         app.use('/api/sage', devAPISage());
         app.use('/api/user', intranetProxy());
         app.use('/api', intranetProxy())
+        break;
+    case 'api-sage-sales':
+        app.use('/api/sage/sales', devAPISageSales());
+        app.use('/api/user', intranetProxy());
+        app.use('/api', intranetProxy());
         break;
     case 'api-sales':
         app.use('/api/sales', devAPISales());

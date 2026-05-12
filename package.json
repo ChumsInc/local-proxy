@@ -10,6 +10,7 @@
     "api-partners": "nodemon index.js --site=api-partners",
     "api-payroll": "nodemon index.js --site=api-payroll",
     "api-sage": "nodemon index.js --site=api-sage",
+    "api-sage-sales": "nodemon index.js --site=api-sage-sales",
     "api-sales": "nodemon index.js --site=api-sales",
     "api-shopify": "nodemon index.js --site=api-shopify",
     "api-timeclock": "nodemon index.js --site=api-timeclock",
@@ -50,6 +51,6 @@
     "@types/express-http-proxy": "^1.6.6",
     "@types/http-proxy": "^1.17.15",
     "@types/node": "^25.0.3",
-    "typescript": "^5.6.2"
+    "typescript": "^6.0.3"
   }
 }
