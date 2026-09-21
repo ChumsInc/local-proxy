@@ -52,6 +52,16 @@ app.use((req, res, next) => {
     next();
 });
 
+let userPath:string|null = null;
+const _userPath = process.cwd();
+if (_userPath.startsWith('C:\\Users\\steve')) {
+    userPath = 'steve';
+} else if (_userPath.startsWith('C:\\Users\\matt.guest')) {
+    userPath = 'matt.guest';
+}
+
+console.log(process.cwd());
+
 switch (options.site) {
     case 'b2b':
     case 'b2b:local':
@@ -95,6 +105,7 @@ switch (options.site) {
         app.use('/timeclock', intranetProxy());
         break;
     case 'dev:local':
+        app.use('/.well-known/appspecific/', express.static(`./workspaces/${_userPath}/dev-local`, {fallthrough: false}))
         app.use('/api', intranetProxy());
         app.use('/apps', intranetProxy());
         app.use('/images', intranetProxy());
