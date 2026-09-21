@@ -1,7 +1,7 @@
 {
   "name": "local-proxy",
   "type": "module",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "scripts": {
     "api-b2b": "node index.ts --site=b2b-api",
     "api-chums": "node index.ts --site=api-chums",
