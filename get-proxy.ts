@@ -1,6 +1,6 @@
-import proxy, {ProxyOptions} from 'express-http-proxy';
+import proxy, {type ProxyOptions} from 'express-http-proxy';
 import process from 'node:process'
-import {Request} from 'express';
+import type {Request} from 'express';
 
 const apiClient = process.env.INTRANET_API_CLIENT ?? 'missing';
 const apiSecret = process.env.INTRANET_API_SECRET ?? 'unknown';

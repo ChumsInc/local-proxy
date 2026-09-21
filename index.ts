@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import compression from 'compression';
 import * as http from "node:http";
 import Debug from 'debug';
-import commandLineArgs, {OptionDefinition} from "command-line-args";
+import commandLineArgs, {type OptionDefinition} from "command-line-args";
 import {
     b2bProxy,
     devAPIB2B,
