@@ -22,8 +22,8 @@ import {
     getListenPort,
     intranetProxy,
     phpStormProxy
-} from "./get-proxy.js";
-
+} from "./get-proxy.ts";
+import {getDevToolsWorkspace} from "./workspaces/index.ts";
 
 const debug = Debug('local-proxy:index');
 
@@ -105,7 +105,7 @@ switch (options.site) {
         app.use('/timeclock', intranetProxy());
         break;
     case 'dev:local':
-        app.use('/.well-known/appspecific/', express.static(`./workspaces/${_userPath}/dev-local`, {fallthrough: false}))
+        app.use('/.well-known/appspecific/', getDevToolsWorkspace(options.site));
         app.use('/api', intranetProxy());
         app.use('/apps', intranetProxy());
         app.use('/images', intranetProxy());
