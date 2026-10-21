@@ -1,6 +1,7 @@
 import proxy, {type ProxyOptions} from 'express-http-proxy';
 import process from 'node:process'
 import type {Request} from 'express';
+import {createProxyMiddleware} from "http-proxy-middleware";
 
 const apiClient = process.env.INTRANET_API_CLIENT ?? 'missing';
 const apiSecret = process.env.INTRANET_API_SECRET ?? 'unknown';
@@ -24,6 +25,12 @@ const intranetProxyOptions: ProxyOptions = {
     }),
     limit: '10mb'
 }
+
+export const wsProxy = createProxyMiddleware({
+    target: `ws://localhost:${phpStormPort}`,
+    changeOrigin: true,
+    ws: true,
+});
 
 
 export const intranetProxy = () => proxy('https://intranet.chums.com', {...intranetProxyOptions});

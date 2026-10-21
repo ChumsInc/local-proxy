@@ -21,7 +21,7 @@ import {
     devB2BVersion,
     getListenPort,
     intranetProxy,
-    phpStormProxy
+    phpStormProxy, wsProxy
 } from "./get-proxy.ts";
 import {getDevToolsWorkspace} from "./workspaces/index.ts";
 
@@ -114,6 +114,7 @@ switch (options.site) {
         app.use('/node-sage', intranetProxy());
         app.use('/sage', intranetProxy());
         app.use('/timeclock', intranetProxy());
+        app.use('/', wsProxy);
         app.use('/', phpStormProxy)
         break;
     case 'inventory-entry':
@@ -187,4 +188,9 @@ app.use((req, res) => {
 
 const server = http.createServer(app);
 server.listen(options.port, 'localhost');
+switch (options.site) {
+    case 'dev:local':
+        server.on('upgrade', wsProxy.upgrade);
+        break;
+}
 debug(`listening on localhost: ${options.port}`);
