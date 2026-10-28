@@ -27,7 +27,7 @@ import {getDevToolsWorkspace} from "./workspaces/index.ts";
 
 const debug = Debug('local-proxy:index');
 
-debug('init()', process.argv);
+// debug('init()', process.argv);
 
 const optionDefinitions: OptionDefinition[] = [
     {name: 'site', alias: 's', type: String},
@@ -35,12 +35,10 @@ const optionDefinitions: OptionDefinition[] = [
     {name: 'local', type: String, multiple: true},
 ];
 const options = commandLineArgs(optionDefinitions);
-debug('options:', options);
-
 if (!options.port) {
     options.port = getListenPort(options.site);
 }
-console.log('options', options);
+debug('options:', options);
 const app = express();
 
 app.locals.pretty = true;
@@ -59,8 +57,11 @@ if (_userPath.startsWith('C:\\Users\\steve')) {
 } else if (_userPath.startsWith('C:\\Users\\matt.guest')) {
     userPath = 'matt.guest';
 }
-
-console.log(process.cwd());
+if (options.local) {
+    if (options.local.includes('api-partners')) {
+        app.use('/api/partners', devAPIPartners());
+    }
+}
 
 switch (options.site) {
     case 'b2b':
@@ -95,6 +96,10 @@ switch (options.site) {
         app.use('/version', devB2BVersion());
         break;
     case 'intranet':
+        // Uncomment the following to test intranet proxy returning a 401 error instead of an actual response.
+        // app.get('/node-sage/api/CHI/salesorder/status/list', (req, res) => {
+        //     res.status(401).send();
+        // })
         app.use('/api', intranetProxy());
         app.use('/apps', intranetProxy());
         app.use('/images', intranetProxy());
@@ -178,6 +183,7 @@ switch (options.site) {
     default:
         debug(`Invalid site for proxy configuration()`);
 }
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
