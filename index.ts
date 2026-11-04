@@ -3,7 +3,7 @@ import express from 'express';
 import bodyParser from "body-parser";
 import compression from 'compression';
 import * as http from "node:http";
-import Debug from 'debug';
+import debug from 'debug';
 import commandLineArgs, {type OptionDefinition} from "command-line-args";
 import {
     b2bProxy,
@@ -23,9 +23,9 @@ import {
     intranetProxy,
     phpStormProxy, wsProxy
 } from "./get-proxy.ts";
-import {getDevToolsWorkspace} from "./workspaces/index.ts";
+import {getDevToolsWorkspace, handleUnknownWellKnownRoute} from "./workspaces/index.ts";
 
-const debug = Debug('local-proxy:index');
+const logger = debug('local-proxy:index');
 
 // debug('init()', process.argv);
 
@@ -38,7 +38,7 @@ const options = commandLineArgs(optionDefinitions);
 if (!options.port) {
     options.port = getListenPort(options.site);
 }
-debug('options:', options);
+logger('options:', options);
 const app = express();
 
 app.locals.pretty = true;
@@ -46,7 +46,7 @@ app.set('json spaces', 2);
 
 app.use(compression());
 app.use((req, res, next) => {
-    debug(options.site, req.protocol, req.method, req.url);
+    logger(options.site, req.protocol, req.method, req.url);
     next();
 });
 
@@ -63,6 +63,8 @@ if (options.local) {
     }
 }
 
+app.get('/.well-known/appspecific/com.chrome.devtools.json', getDevToolsWorkspace(options.site));
+app.get('/.well-known', handleUnknownWellKnownRoute);
 switch (options.site) {
     case 'b2b':
     case 'b2b:local':
@@ -110,7 +112,6 @@ switch (options.site) {
         app.use('/timeclock', intranetProxy());
         break;
     case 'dev:local':
-        app.use('/.well-known/appspecific/', getDevToolsWorkspace(options.site));
         app.use('/api', intranetProxy());
         app.use('/apps', intranetProxy());
         app.use('/images', intranetProxy());
@@ -181,7 +182,7 @@ switch (options.site) {
         app.use('/api', intranetProxy())
         break;
     default:
-        debug(`Invalid site for proxy configuration()`);
+        logger(`Invalid site for proxy configuration()`);
 }
 
 
@@ -199,4 +200,4 @@ switch (options.site) {
         server.on('upgrade', wsProxy.upgrade);
         break;
 }
-debug(`listening on localhost: ${options.port}`);
+logger(`listening on localhost: ${options.port}`);
